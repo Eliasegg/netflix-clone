@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, RotateCcw } from "lucide-react";
 
 interface BackgroundHeroProps {
   videoSrc?: string;
@@ -18,6 +18,7 @@ export default function BackgroundHero({
 }: BackgroundHeroProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);
+  const [videoEnded, setVideoEnded] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -28,9 +29,7 @@ export default function BackgroundHero({
     const play = async () => {
       try {
         await video.play();
-      } catch {
-        // Autoplay puede estar bloqueado; ignorar silenciosamente.
-      }
+      } catch {}
     };
 
     play();
@@ -45,16 +44,31 @@ export default function BackgroundHero({
     setMuted(nextMuted);
   };
 
+  const handleVideoEnded = () => {
+    setVideoEnded(true);
+  };
+
+  const handleReplay = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.currentTime = 0;
+    setVideoEnded(false);
+    try {
+      await video.play();
+    } catch {}
+  };
+
   return (
     <div className="relative h-[56.25vw] min-h-[300px] max-h-[800px] w-full overflow-hidden bg-black text-white">
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay
-        loop
         muted={muted}
         playsInline
         poster={posterSrc}
+        onEnded={handleVideoEnded}
       >
         <source src={videoSrc} type="video/mp4" />
         Tu navegador no soporta el elemento &quot;video&quot;.
@@ -74,25 +88,27 @@ export default function BackgroundHero({
       </div>
 
       {/* Mute/Unmute & rating ribbon */}
-      <button
-        type="button"
-        onClick={handleToggleMute}
-        className="group pointer-events-auto absolute bottom-6 right-6 z-20 rounded-full bg-transparent text-white focus:outline-none"
-      >
-        <div className="flex items-center gap-3">
+      <div className="pointer-events-auto absolute bottom-6 right-6 z-20 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={videoEnded ? handleReplay : handleToggleMute}
+          className="group rounded-full bg-transparent text-white focus:outline-none"
+        >
           <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-black/40 backdrop-blur-sm transition group-hover:bg-white/20">
-            {muted ? (
+            {videoEnded ? (
+              <RotateCcw className="h-4 w-4" />
+            ) : muted ? (
               <VolumeX className="h-4 w-4" />
             ) : (
               <Volume2 className="h-4 w-4" />
             )}
           </div>
-          <div className="h-8 w-px bg-white/40" />
-          <div className="rounded-sm bg-black/60 px-3 py-1 text-xs font-semibold tracking-wide text-white/90">
-            {ratingLabel}
-          </div>
+        </button>
+        <div className="h-8 w-px bg-white/40" />
+        <div className="rounded-sm bg-black/60 px-3 py-1 text-xs font-semibold tracking-wide text-white/90">
+          {ratingLabel}
         </div>
-      </button>
+      </div>
     </div>
   );
 }
