@@ -28,7 +28,7 @@ export default function BackgroundHero({
     const play = async () => {
       try {
         await video.play();
-      } catch (err) {
+      } catch {
         // Autoplay puede estar bloqueado; ignorar silenciosamente.
       }
     };
@@ -46,7 +46,7 @@ export default function BackgroundHero({
   };
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-black text-white">
+    <div className="relative h-[56.25vw] min-h-[300px] max-h-[800px] w-full overflow-hidden bg-black text-white">
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
@@ -60,8 +60,7 @@ export default function BackgroundHero({
         Tu navegador no soporta el elemento &quot;video&quot;.
       </video>
 
-      {/* overlay oscuro atrás del vídeo. TODO: cambiarlo para que se parezca más */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/70" />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
 
       <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12">
         <div className="max-w-xl space-y-4">
