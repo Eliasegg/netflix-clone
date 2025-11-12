@@ -74,18 +74,7 @@ export default function BackgroundHero({
         Tu navegador no soporta el elemento &quot;video&quot;.
       </video>
 
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
-
-      <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12">
-        <div className="max-w-xl space-y-4">
-          <h1 className="text-3xl font-extrabold sm:text-5xl">
-            Worlds 2025
-          </h1>
-          <p className="text-sm text-white/80 sm:text-base">
-            El evento más grande de la industria de videojuegos. Vívelo.
-          </p>
-        </div>
-      </div>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
 
       {/* Mute/Unmute & rating ribbon */}
       <div className="pointer-events-auto absolute bottom-6 right-6 z-20 flex items-center gap-3">

@@ -1,15 +1,37 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const netflixSans = localFont({
+  src: [
+    {
+      path: "../public/font/NetflixSans_W_Th.woff2",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../public/font/NetflixSans_W_Lt.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/font/NetflixSans_W_Rg.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/font/NetflixSans_W_Bd.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../public/font/NetflixSans_W_Blk.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-netflix-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -23,10 +45,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={netflixSans.variable}>
+      <body className="font-sans antialiased">
         {children}
       </body>
     </html>
