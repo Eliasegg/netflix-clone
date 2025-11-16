@@ -1,21 +1,30 @@
 import BackgroundHero from "@/components/background-hero";
 import HeroBillboard from "@/components/hero-billboard";
+import Navbar from "@/components/navbar";
+import CategoryCarousel from "@/components/category-carousel";
+import { movieSeriesCategories } from "@/lib/movies-series";
 
 export default function Home() {
   return (
-    <div 
-      className="relative bg-black w-full"
+    <div
+      className="relative bg-black w-full min-h-screen"
       style={{
         fontFamily: "Netflix Sans, Helvetica Neue, Segoe UI, Roboto, Ubuntu, sans-serif",
         userSelect: "none",
         color: "#fff",
       }}
     >
+      {/* Top navigation bar */}
+      <Navbar />
+
       {/* Billboard container matching Netflix structure */}
-      <div className="billboard-container relative w-full" style={{ height: "56.25vw", maxHeight: "100vh" }}>
+      <div
+        className="billboard-container relative w-full"
+        style={{ height: "56.25vw", maxHeight: "100vh" }}
+      >
         {/* Background video */}
         <BackgroundHero 
-          videoSrc="/worlds-2025.mp4" 
+          videoSrc="/frankenstein.webm" 
           posterSrc="/poster.jpg" 
           ratingLabel="16+" 
         />
@@ -28,6 +37,13 @@ export default function Home() {
           top10Rank={2}
           top10Label="en películas hoy"
         />
+      </div>
+
+      {/* Categories Section */}
+      <div className="relative -mt-[8vw] z-10 pb-20">
+        {movieSeriesCategories.map((category) => (
+          <CategoryCarousel key={category.id} category={category} />
+        ))}
       </div>
     </div>
   );

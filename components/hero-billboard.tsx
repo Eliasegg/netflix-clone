@@ -31,6 +31,12 @@ export default function HeroBillboard({
     return () => clearTimeout(timer);
   }, []);
 
+  const handlePlayClick = () => {
+    if (!videoId) return;
+    const url = `https://www.netflix.com/watch/${videoId}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div className="absolute inset-0 w-full z-0 overflow-hidden pointer-events-none">
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-100 pointer-events-none" />
@@ -111,7 +117,7 @@ export default function HeroBillboard({
             </div>
 
             <div className="mt-[1.5vw] flex items-center gap-4 pointer-events-auto">
-              <NetflixButton variant="white" onClick={() => console.log("Play clicked")}>
+              <NetflixButton variant="white" onClick={handlePlayClick}>
                 <Play className="w-5 h-5 md:w-6 md:h-6 fill-current" />
                 Reproducir
               </NetflixButton>

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# large local media not tracked in git
+/public/mp4/previews/El último samurái en pie.mp4
