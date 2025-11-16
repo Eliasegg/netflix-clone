@@ -60,42 +60,81 @@ export default function BackgroundHero({
   };
 
   return (
-    <div className="relative h-[56.25vw] min-h-[300px] max-h-[800px] w-full overflow-hidden bg-black text-white">
-      <video
-        ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted={muted}
-        playsInline
-        poster={posterSrc}
-        onEnded={handleVideoEnded}
+    <div 
+      className="relative w-full bg-black overflow-hidden"
+      style={{
+        height: "56.25vw",
+        maxHeight: "100vh",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 0,
+      }}
+    >
+      <div className="absolute inset-0 w-full h-full" aria-hidden="true" role="presentation">
+        <div className="relative w-full h-full overflow-hidden">
+          <video
+            ref={videoRef}
+            className="absolute inset-0 h-full w-full object-cover"
+            autoPlay
+            muted={muted}
+            playsInline
+            poster={posterSrc}
+            onEnded={handleVideoEnded}
+          >
+            <source src={videoSrc} type="video/mp4" />
+            Tu navegador no soporta el elemento &quot;video&quot;.
+          </video>
+        </div>
+      </div>
+
+      {/* Audio toggle and maturity rating */}
+      <div
+        className="absolute right-0 z-10 flex items-center gap-3 pl-[4vw] pr-0"
+        style={{ bottom: "10vw" }}
       >
-        <source src={videoSrc} type="video/mp4" />
-        Tu navegador no soporta el elemento &quot;video&quot;.
-      </video>
-
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
-
-      {/* Mute/Unmute & rating ribbon */}
-      <div className="pointer-events-auto absolute bottom-6 right-6 z-20 flex items-center gap-3">
         <button
           type="button"
           onClick={videoEnded ? handleReplay : handleToggleMute}
-          className="group rounded-full bg-transparent text-white focus:outline-none"
+          className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-transparent text-white transition hover:border-white hover:bg-white/10 focus:outline-none cursor-pointer"
+          aria-label={muted ? "Activar el audio" : "Desactivar el audio"}
+          data-uia="audio-toggle"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-black/40 backdrop-blur-sm transition group-hover:bg-white/20">
-            {videoEnded ? (
-              <RotateCcw className="h-4 w-4" />
-            ) : muted ? (
-              <VolumeX className="h-4 w-4" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
-            )}
-          </div>
+          {videoEnded ? (
+            <RotateCcw className="h-5 w-5" />
+          ) : muted ? (
+            <VolumeX className="h-5 w-5" />
+          ) : (
+            <Volume2 className="h-5 w-5" />
+          )}
         </button>
-        <div className="h-8 w-px bg-white/40" />
-        <div className="rounded-sm bg-black/60 px-3 py-1 text-xs font-semibold tracking-wide text-white/90">
-          {ratingLabel}
+
+        {/* Maturity rating ribbon styled like Netflix */}
+        <div data-uia="maturity-rating">
+          <div
+            style={{
+              WebkitTextSizeAdjust: "100%",
+              color: "#fff",
+              lineHeight: "1.2",
+              WebkitFontSmoothing: "antialiased",
+              cursor: "default",
+              fontFamily:
+                "Netflix Sans,Helvetica Neue,Segoe UI,Roboto,Ubuntu,sans-serif",
+              userSelect: "none",
+              alignItems: "center",
+              backgroundColor: "rgba(51,51,51,.6)",
+              border: "3px #dcdcdc",
+              borderLeftStyle: "solid",
+              boxSizing: "border-box",
+              display: "flex",
+              fontSize: "1.1vw",
+              height: "2.4vw",
+              padding: ".5vw 3.5vw .5vw .8vw",
+            }}
+          >
+            <span>{ratingLabel}</span>
+          </div>
         </div>
       </div>
     </div>
